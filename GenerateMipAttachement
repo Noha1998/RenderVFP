@@ -1,0 +1,46 @@
+public class GenerateMipAttachement {
+    public class InputWrapper {
+        @InvocableVariable(required=true)
+        public Id caseId;
+    }
+    
+    public class OutputWrapper {
+        @InvocableVariable
+        public string contentDocumentId;
+    }
+
+    @InvocableMethod(label='Generate PDF and Attach to Record')
+    public static List<OutputWrapper> generateFromFlow(List<InputWrapper> inputs) {
+         List<OutputWrapper> results = new List<OutputWrapper>();
+        
+        for (InputWrapper input : inputs) {
+            Case caseRecord = [SELECT id, CaseNumber FROM Case WHERE Id = :input.caseId LIMIT 1];
+            
+            PageReference pdfPage = Page.MipAttachement; 
+            pdfPage.getParameters().put('id', input.caseId);
+            Blob pdfBlob = pdfPage.getContentAsPDF();
+            
+            ContentVersion cv = new ContentVersion();
+            cv.Title = 'MoveInPermit';
+            cv.PathOnClient = 'MoveInPermit.pdf';
+            cv.VersionData = pdfBlob;
+            insert cv;
+            
+            cv = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id = :cv.Id LIMIT 1];
+
+            ContentDocumentLink cdl = new ContentDocumentLink();
+            cdl.ContentDocumentId = cv.ContentDocumentId;
+            cdl.LinkedEntityId = input.caseId;
+            cdl.ShareType = 'V'; 
+            cdl.Visibility = 'AllUsers';
+            insert cdl;
+              
+            OutputWrapper output = new OutputWrapper();
+            output.contentDocumentId = cv.ContentDocumentId;
+            results.add(output);
+        }
+        
+        return results;
+    }
+
+}
