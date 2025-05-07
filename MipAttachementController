@@ -1,0 +1,16 @@
+public without sharing class MipAttachementController {
+    public Id caseId {get;set;}
+    public Case caseRecord {get;set;}
+    public string propertyDetails {get;set;}
+    
+    public MipAttachementController() {
+        caseId = ApexPages.currentPage().getParameters().get('id');
+        
+        if (caseId != null) {
+            caseRecord = [SELECT Id, CaseNumber, Owner_Association__c, Owner_Association__r.name, Property__c, Property__r.Property_Name__c, PropertyInventory__c, Record_Type_Name__c, Lease_Start_Date__c, Lease_End_Date__c, Move_In_Date__c, Move_Out_Date__c, Occupant_Type__c, Building_Location__c FROM Case WHERE Id = :caseId LIMIT 1];
+            
+            propertyDetails = caseRecord.Property__r.Property_Name__c + ',' + caseRecord.Owner_Association__r.name;
+        } 
+    } 
+    
+}
