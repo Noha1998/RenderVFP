@@ -1,0 +1,91 @@
+<apex:page showHeader="false" controller="MipAttachementController">
+     <html>
+        <head>
+            <style>
+                @page {
+                size: A4 portrait;
+                }
+                .container {
+                border-style: solid;
+                border-color: black;
+                border-width: 2px;
+                width: 90%;
+                margin: auto;
+                padding: 30px;            
+                }
+                .header {
+                background-color: black;
+                color: white;
+                padding: 20px 30px;
+                text-align: right;
+                font-size: 1.5em;
+                margin: 0;
+                width: 90%;
+                margin-top: 40px; 
+                margin-left: auto;
+                margin-right: auto;
+                }
+                .table-container {
+                display: flex;
+                justify-content: flex-start; 
+                }
+                .table-container table {
+                width: 30%;
+                border: none;
+                }
+                .table-container th,
+                .table-container td {
+                padding: 4px;
+                border: none;
+                text-align: left;
+                font-size: 14px;
+                color: black;
+                } 
+                .two-columns {
+                column-count: 2;
+                column-gap: 60px;
+                max-width: 1000px;
+                width: 100%;
+                padding-left: 100px;
+                font-size: 14px;
+                color: black;
+                }
+                .two-columns p {
+                margin: 0 0 1em 0;
+                }
+            </style>
+        </head>
+         <body>
+             <div class="header">
+                  RQ.{{!caseRecord.CaseNumber}}
+                  </div>
+              <div class="container"> 
+                  <div class="table-container">
+                    <table>
+                        <tr>
+                            <td >Move in date:</td>
+                        </tr>
+                        <tr>
+                            <td>Occupant name:</td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                        </tr>
+                        <tr>
+                            <td>Community:</td>
+                        </tr>
+                        <tr>
+                            <td>Date of issue:</td>
+                        </tr>
+                    </table>
+                </div>
+        <div class="two-columns">
+            <p>Please share this Move In Permit with your moving company for the community security to verify and allow access.</p>
+            <p>Common areas must be kept clean while moving and residents must arrange to dispose of all waste in an appropriate manner.</p>
+            <p>Moving timings are 8 AM to 6 PM on weekdays; 10 AM to 6 PM on Sundays and public holidays.</p>
+            <p>Now, simply activate your access cards or apply for new access cards on your community portal. </p>
+        </div>
+              </div>
+         </body>
+  </html>
+</apex:page>
